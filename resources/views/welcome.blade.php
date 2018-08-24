@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Seguridad</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -17,7 +17,7 @@
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
-                height: 100vh;
+                height: 100vh; 
                 margin: 0;
             }
 
@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    Biometría Kinbu 
                 </div>
 
                 <div class="links">
@@ -89,6 +89,13 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+                <form method="post" action="/compare" accept-charset="UTF-8" enctype="multipart/form-data">
+                    <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
+                    Imagen 1
+                    <input type="file" name="image1" accept="image/*" />
+                    Imagen 2
+                    <input type="file" name="image2" accept="image/*" />
+                    <input type="submit"/>
             </div>
         </div>
     </body>
