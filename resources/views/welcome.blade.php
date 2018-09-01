@@ -14,9 +14,8 @@
         <style>
             html, body {
                 background-color: #fff;
-                color: #636b6f;
                 font-family: 'Raleway', sans-serif;
-                font-weight: 100;
+                font-weight: normal;
                 height: 100vh; 
                 margin: 0;
             }
@@ -62,6 +61,17 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+            #container {
+                margin: 0px auto;
+                width: 300px;
+                height: 300px;
+                border: 10px #333 solid;
+            }
+            #player {
+                width: 300px;
+                height: 300px;
+                background-color: #666;
+            }
         </style>
     </head>
     <body>
@@ -81,22 +91,53 @@
                 <div class="title m-b-md">
                     Biometría Kinbu 
                 </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
                 <form method="post" action="/compare" accept-charset="UTF-8" enctype="multipart/form-data">
                     <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
+                    Método ImageHash
+                    <input type="radio" name="method" value="imagehash">
+                    Método Imagick
+                    <input type="radio" name="method" value="imagick">
                     Imagen 1
                     <input type="file" name="image1" accept="image/*" />
                     Imagen 2
                     <input type="file" name="image2" accept="image/*" />
-                    <input type="submit"/>
+                    <input type="text" id="picture" name="picture" value="">
+                    <input type="submit">
+                </form>
+                    Foto
+                    <button id="capture">Capturar</button>
+                    <div id="container">
+                        <video autoplay="true" id="player">
+                        </video>
+                        <canvas id="canvas" width=150 height=150></canvas>
+
+                    </div>
+                    <script type="text/javascript">
+                      const player = document.getElementById('player');
+                      const canvas = document.getElementById('canvas');
+                      const context = canvas.getContext('2d');
+                      const captureButton = document.getElementById('capture');
+
+                      const constraints = {
+                        video: true,
+                      };
+
+                      captureButton.addEventListener('click', () => {
+                        // Draw the video frame to the canvas.
+                        context.drawImage(player, 0, 0, canvas.width, canvas.height);
+                        // Stop all video streams.
+                        player.srcObject.getVideoTracks().forEach(track => track.stop());
+                        var dataURL = canvas.toDataURL();
+                        document.getElementById('picture').value = dataURL;
+                      });
+
+                      // Attach the video stream to the video element and autoplay.
+                      navigator.mediaDevices.getUserMedia(constraints)
+                        .then((stream) => {
+                          player.srcObject = stream;
+                        });
+                    </script>
+                    
             </div>
-        </div>
-    </body>
-</html>
+        </body>
+    </html>
